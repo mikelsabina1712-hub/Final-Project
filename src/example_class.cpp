@@ -1,7 +1,9 @@
 #include "example_class.h"
+#include <godot_cpp/core/class_db.hpp>
+
 
 void ExampleClass::_bind_methods() {
-	godot::ClassDB::bind_method(D_METHOD("print_type", "variant"), &ExampleClass::print_type);
+	ClassDB::bind_method(D_METHOD("print_type", "variant"), &ExampleClass::print_type);
 }
 
 void ExampleClass::print_type(const Variant &p_variant) const {

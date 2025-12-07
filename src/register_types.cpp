@@ -5,7 +5,20 @@
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
-#include "example_class.h"
+#include "character.h"
+#include "zombie.h"
+#include "human.h"
+#include "days.h"
+#include "player.h"
+#include "game_manager.h"
+#include "quiz.h"
+
+
+
+
+
+
+
 
 using namespace godot;
 
@@ -14,7 +27,15 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
-	GDREGISTER_CLASS(ExampleClass);
+
+	GDREGISTER_ABSTRACT_CLASS(Character);
+	GDREGISTER_CLASS(ZombieCharacter);
+	GDREGISTER_CLASS(HumanCharacter);
+	GDREGISTER_CLASS(DayManager);
+	GDREGISTER_CLASS(Player);
+	GDREGISTER_CLASS(GameManager);
+	GDREGISTER_CLASS(QuizManager);
+
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
@@ -26,7 +47,7 @@ void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
 extern "C"
 {
 	// Initialization
-	GDExtensionBool GDE_EXPORT example_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization)
+	GDExtensionBool GDE_EXPORT godotcon2024_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization)
 	{
 		GDExtensionBinding::InitObject init_obj(p_get_proc_address, p_library, r_initialization);
 		init_obj.register_initializer(initialize_gdextension_types);

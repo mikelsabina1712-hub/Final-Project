@@ -1,0 +1,753 @@
+[gd_scene load_steps=29 format=3 uid="uid://bnxwt61ske6jk"]
+
+[ext_resource type="Script" uid="uid://davpciljnnxil" path="res://day_manager.gd" id="1_3b2rp"]
+[ext_resource type="Script" uid="uid://cmkiw5s1eclki" path="res://projectreal.gd" id="1_3jgss"]
+[ext_resource type="Script" uid="uid://boh0651ahl4kx" path="res://game_manager.gd" id="1_bir6l"]
+[ext_resource type="Script" uid="uid://bcilcon2pv8fl" path="res://quiz_manager.gd" id="2_bir6l"]
+[ext_resource type="Script" uid="uid://d2ietvxer7sxy" path="res://UI.gd" id="2_udjck"]
+[ext_resource type="Texture2D" uid="uid://bcoimsvpw2qcn" path="res://art/intro/start.png" id="6_aa0cv"]
+[ext_resource type="Texture2D" uid="uid://bc48dgpqd4n1r" path="res://art/intro/background.png" id="7_ld1nf"]
+[ext_resource type="Texture2D" uid="uid://d27v0jdafvvyn" path="res://art/intro/news.png" id="8_4a7i0"]
+[ext_resource type="Texture2D" uid="uid://crmv7lpuxqvf7" path="res://art/intro/morning.png" id="8_jfdm5"]
+[ext_resource type="Texture2D" uid="uid://316pwf4i70ui" path="res://art/intro/quiz_game.png" id="8_ld1nf"]
+[ext_resource type="Texture2D" uid="uid://clu6rho6ssdhn" path="res://art/zombies/eyes/Screenshot 2025-12-01 at 21.14.04.png" id="11_aa0cv"]
+[ext_resource type="Texture2D" uid="uid://b4rc76vsect4e" path="res://art/intro/DIED.png" id="11_r6vht"]
+[ext_resource type="Texture2D" uid="uid://csi8tovkfweqw" path="res://art/zombies/teeth/Captura de pantalla 2025-11-19 115710.png" id="12_45u5h"]
+[ext_resource type="Texture2D" uid="uid://c0q43lch5kp1u" path="res://art/intro/WON.png" id="12_gh2o7"]
+[ext_resource type="Texture2D" uid="uid://c8e5n0o7jvr76" path="res://art/zombies/hands/Screenshot 2025-11-19 at 18.14.41.png" id="13_r6vht"]
+[ext_resource type="Texture2D" uid="uid://ndfgh78egm18" path="res://art/zombies/feet/Screenshot 2025-11-19 at 18.28.38.png" id="14_gh2o7"]
+[ext_resource type="Texture2D" uid="uid://1yurh50g4qrl" path="res://art/zombies/hands/Screenshot 2025-12-01 at 21.15.33.png" id="15_8a4hf"]
+[ext_resource type="Texture2D" uid="uid://r6pvxq66g2pr" path="res://art/zombies/teeth/Captura de pantalla 2025-11-19 115818.png" id="18_gh2o7"]
+
+[sub_resource type="FontVariation" id="FontVariation_0rof8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w8cd7"]
+font = SubResource("FontVariation_0rof8")
+font_size = 50
+
+[sub_resource type="FontVariation" id="FontVariation_l8hla"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hi5em"]
+font = SubResource("FontVariation_l8hla")
+font_size = 30
+
+[sub_resource type="FontVariation" id="FontVariation_dmrlw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ce7h"]
+font = SubResource("FontVariation_dmrlw")
+font_size = 50
+
+[sub_resource type="FontVariation" id="FontVariation_3yxjw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_elgsa"]
+font = SubResource("FontVariation_3yxjw")
+font_size = 40
+
+[sub_resource type="FontVariation" id="FontVariation_sck4r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1mhn8"]
+font = SubResource("FontVariation_sck4r")
+font_size = 40
+
+[node name="Project" type="Node2D"]
+script = ExtResource("1_3jgss")
+
+[node name="Background" type="Sprite2D" parent="."]
+
+[node name="GameManager" type="GameManager" parent="."]
+script = ExtResource("1_bir6l")
+
+[node name="DayManager" type="DayManager" parent="GameManager"]
+script = ExtResource("1_3b2rp")
+
+[node name="QuizManager" type="QuizManager" parent="GameManager"]
+script = ExtResource("2_bir6l")
+
+[node name="Player" type="Player" parent="GameManager"]
+
+[node name="Door" type="Node2D" parent="GameManager"]
+
+[node name="House" type="Node" parent="GameManager"]
+
+[node name="UI" type="CanvasLayer" parent="." groups=["ui_root"]]
+script = ExtResource("2_udjck")
+bg_intro = ExtResource("6_aa0cv")
+bg_how_to = ExtResource("7_ld1nf")
+bg_difficulty = ExtResource("7_ld1nf")
+bg_night = ExtResource("7_ld1nf")
+bg_sleeping = ExtResource("7_ld1nf")
+bg_morning_news = ExtResource("8_4a7i0")
+bg_quiz = ExtResource("8_ld1nf")
+bg_inspection = ExtResource("8_jfdm5")
+bg_game_over = ExtResource("11_r6vht")
+bg_victory = ExtResource("12_gh2o7")
+morning_example_textures = Array[Texture2D]([ExtResource("11_aa0cv"), ExtResource("12_45u5h"), ExtResource("13_r6vht"), ExtResource("14_gh2o7"), ExtResource("15_8a4hf"), ExtResource("11_aa0cv"), ExtResource("18_gh2o7")])
+
+[node name="BackgroundImage" type="TextureRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="IntroPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 23.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IntroImage" type="TextureRect" parent="UI/IntroPanel"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -10.0
+offset_right = -6.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_aa0cv")
+expand_mode = 1
+
+[node name="IntroLabel" type="Label" parent="UI/IntroPanel"]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 145.0
+offset_right = 1045.0
+offset_bottom = 401.0
+theme_override_font_sizes/font_size = 30
+
+[node name="HowToPlayPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HowToImage" type="TextureRect" parent="UI/HowToPlayPanel"]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 1284.0
+offset_bottom = 722.0
+texture = ExtResource("7_ld1nf")
+expand_mode = 1
+
+[node name="HowToText" type="RichTextLabel" parent="UI/HowToPlayPanel"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 116.0
+offset_right = 1234.0
+offset_bottom = 370.0
+theme_override_font_sizes/normal_font_size = 50
+theme_override_font_sizes/bold_font_size = 50
+theme_override_font_sizes/bold_italics_font_size = 50
+theme_override_font_sizes/italics_font_size = 50
+theme_override_font_sizes/mono_font_size = 50
+fit_content = true
+tab_size = 20
+
+[node name="VisitorPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VisitorName" type="Label" parent="UI/VisitorPanel"]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 1.0
+offset_right = 400.0
+offset_bottom = 86.0
+label_settings = SubResource("LabelSettings_w8cd7")
+
+[node name="VisitorSprite" type="Sprite2D" parent="UI/VisitorPanel"]
+position = Vector2(277, 197.99998)
+scale = Vector2(0.5047893, 0.50909966)
+
+[node name="LetInButton" type="Button" parent="UI/VisitorPanel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 250.0
+offset_right = 289.0
+offset_bottom = 472.0
+theme_override_font_sizes/font_size = 50
+text = "Let In"
+
+[node name="RejectButton" type="Button" parent="UI/VisitorPanel"]
+layout_mode = 0
+offset_left = 979.0
+offset_top = 246.0
+offset_right = 1188.0
+offset_bottom = 459.0
+theme_override_font_sizes/font_size = 50
+text = "Reject
+"
+
+[node name="VisitorImage" type="TextureRect" parent="UI/VisitorPanel"]
+layout_mode = 0
+offset_left = 351.0
+offset_top = 14.0
+offset_right = 888.0
+offset_bottom = 497.0
+
+[node name="SleepingPanel" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 399.0
+offset_bottom = 233.0
+
+[node name="SleepNotificationsLabel" type="Label" parent="UI/SleepingPanel"]
+layout_mode = 0
+offset_left = 252.0
+offset_top = 95.0
+offset_right = 1055.0
+offset_bottom = 478.0
+theme_override_font_sizes/font_size = 30
+text = "HELLO"
+
+[node name="MorningNewsPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="UI/MorningNewsPanel"]
+visible = false
+layout_mode = 0
+offset_left = 202.0
+offset_top = 127.0
+offset_right = 1104.0
+offset_bottom = 518.0
+theme_override_font_sizes/font_size = 30
+
+[node name="NewsText" type="RichTextLabel" parent="UI/MorningNewsPanel"]
+layout_mode = 0
+offset_left = 114.0
+offset_top = 178.0
+offset_right = 624.0
+offset_bottom = 589.0
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 30
+theme_override_font_sizes/bold_italics_font_size = 30
+theme_override_font_sizes/italics_font_size = 30
+
+[node name="ExampleImage" type="TextureRect" parent="UI/MorningNewsPanel"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -586.0
+offset_top = -176.0
+offset_right = -128.0
+offset_bottom = 73.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 2
+
+[node name="QuizPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="QuestionLabel" type="Label" parent="UI/QuizPanel"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 89.0
+offset_right = 1168.0
+offset_bottom = 182.0
+text = "What is the capital of France?"
+label_settings = SubResource("LabelSettings_hi5em")
+
+[node name="AnswerAButton" type="Button" parent="UI/QuizPanel"]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 163.0
+offset_right = 429.0
+offset_bottom = 418.0
+theme_override_font_sizes/font_size = 20
+text = "Option 1"
+
+[node name="AnswerBButton" type="Button" parent="UI/QuizPanel"]
+layout_mode = 0
+offset_left = 819.0
+offset_top = 167.0
+offset_right = 1076.0
+offset_bottom = 413.0
+theme_override_font_sizes/font_size = 20
+text = "Option 2"
+
+[node name="AnswerCButton" type="Button" parent="UI/QuizPanel"]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 443.0
+offset_right = 431.0
+offset_bottom = 690.0
+theme_override_font_sizes/font_size = 20
+text = "Option 3
+"
+
+[node name="AnswerDButton" type="Button" parent="UI/QuizPanel"]
+layout_mode = 0
+offset_left = 815.0
+offset_top = 446.0
+offset_right = 1082.0
+offset_bottom = 691.0
+theme_override_font_sizes/font_size = 20
+text = "Option 4
+"
+
+[node name="InspectPartsPanel" type="Panel" parent="UI"]
+visible = false
+offset_left = 280.0
+offset_top = 411.0
+offset_right = 280.0
+offset_bottom = 413.0
+
+[node name="Title" type="Label" parent="UI/InspectPartsPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="PartsButtonsContainer" type="Panel" parent="UI/InspectPartsPanel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -150.0
+offset_right = 4.0
+offset_bottom = -138.0
+
+[node name="InspectEyesButton" type="Button" parent="UI/InspectPartsPanel/PartsButtonsContainer"]
+layout_mode = 0
+offset_left = 705.0
+offset_top = -62.0
+offset_right = 892.0
+offset_bottom = 79.0
+theme_override_font_sizes/font_size = 50
+text = "eyes
+"
+
+[node name="InspectTeethButton" type="Button" parent="UI/InspectPartsPanel/PartsButtonsContainer"]
+layout_mode = 0
+offset_left = -244.0
+offset_top = 47.0
+offset_right = -34.0
+offset_bottom = 176.0
+theme_override_font_sizes/font_size = 50
+text = "teeth"
+
+[node name="InspectHandsButton" type="Button" parent="UI/InspectPartsPanel/PartsButtonsContainer"]
+layout_mode = 0
+offset_left = 717.0
+offset_top = 95.0
+offset_right = 895.0
+offset_bottom = 275.0
+theme_override_font_sizes/font_size = 50
+text = "hands
+"
+
+[node name="InspectFeetButton" type="Button" parent="UI/InspectPartsPanel/PartsButtonsContainer"]
+layout_mode = 0
+offset_left = -221.0
+offset_top = 220.0
+offset_right = -38.0
+offset_bottom = 351.0
+theme_override_font_sizes/font_size = 50
+text = "feet
+"
+
+[node name="InspectHairButton" type="Button" parent="UI/InspectPartsPanel/PartsButtonsContainer"]
+layout_mode = 0
+offset_left = -226.0
+offset_top = -153.0
+offset_right = -49.0
+offset_bottom = -10.0
+theme_override_font_sizes/font_size = 50
+text = "hair"
+
+[node name="InspectImage" type="TextureRect" parent="UI/InspectPartsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 3.42
+anchor_top = 1.9900001
+anchor_right = 3.42
+anchor_bottom = 10.575001
+offset_left = 115.0
+offset_top = -360.98
+offset_right = 593.0
+offset_bottom = 13.811058
+expand_mode = 3
+stretch_mode = 5
+
+[node name="BackButton" type="Button" parent="UI/InspectPartsPanel"]
+layout_mode = 0
+offset_left = 734.0
+offset_top = 154.0
+offset_right = 936.0
+offset_bottom = 259.0
+theme_override_font_sizes/font_size = 25
+text = "GO BACK"
+
+[node name="ResidentsPanel" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 1.0
+offset_right = 3.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="Panel" parent="UI/ResidentsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResidentsList" type="Control" parent="UI/ResidentsPanel/ScrollContainer"]
+anchors_preset = 0
+offset_left = -5.0
+offset_top = -2.0
+offset_right = 1269.0
+offset_bottom = 713.0
+
+[node name="Title" type="Label" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList"]
+layout_mode = 0
+offset_left = 365.0
+offset_top = 46.0
+offset_right = 860.0
+offset_bottom = 107.0
+theme_override_font_sizes/font_size = 40
+text = "RESIDENTS IN THE HOUSE"
+
+[node name="ResidentEntry0" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList"]
+layout_mode = 1
+anchor_right = 5.7860003
+anchor_bottom = 1.0
+offset_left = 75.0
+offset_top = 352.0
+offset_right = -6983.6484
+offset_bottom = -7.0
+
+[node name="Portrait0" type="TextureRect" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry0"]
+custom_minimum_size = Vector2(10, 300)
+layout_mode = 0
+offset_left = -51.0
+offset_top = -222.0
+offset_right = 178.0
+offset_bottom = 78.0
+expand_mode = 1
+
+[node name="ButtonsRow0" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry0"]
+anchors_preset = 0
+offset_left = -4.0
+offset_top = 310.0
+offset_right = 274.0
+offset_bottom = 360.0
+
+[node name="InspectResident0Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry0/ButtonsRow0"]
+layout_mode = 0
+offset_left = -46.0
+offset_top = -219.0
+offset_right = 82.0
+offset_bottom = -169.0
+theme_override_font_sizes/font_size = 25
+text = "INSPECT"
+
+[node name="KillResident0Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry0/ButtonsRow0"]
+layout_mode = 0
+offset_left = 101.0
+offset_top = -219.0
+offset_right = 170.0
+offset_bottom = -169.0
+theme_override_font_sizes/font_size = 25
+text = "KILL"
+
+[node name="ResidentEntry1" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList"]
+anchors_preset = 0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 28.0
+
+[node name="Portrait1" type="TextureRect" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry1"]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 113.0
+offset_right = 496.0
+offset_bottom = 409.0
+expand_mode = 1
+
+[node name="ButtonsRow1" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry1"]
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 20.0
+offset_bottom = 12.0
+
+[node name="InspectResident1Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry1/ButtonsRow1"]
+layout_mode = 0
+offset_left = 263.0
+offset_top = 413.0
+offset_right = 383.0
+offset_bottom = 467.0
+theme_override_font_sizes/font_size = 25
+text = "INSPECT"
+
+[node name="KillResident1Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry1/ButtonsRow1"]
+layout_mode = 0
+offset_left = 391.0
+offset_top = 417.0
+offset_right = 484.0
+offset_bottom = 466.0
+theme_override_font_sizes/font_size = 25
+text = "KILL
+"
+
+[node name="ResidentEntry2" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList"]
+anchors_preset = 0
+offset_top = 32.0
+offset_right = 20.0
+offset_bottom = 44.0
+
+[node name="Portrait2" type="TextureRect" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry2"]
+layout_mode = 0
+offset_left = 509.0
+offset_top = 99.0
+offset_right = 724.0
+offset_bottom = 395.0
+expand_mode = 1
+
+[node name="ButtonsRow2" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry2"]
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 20.0
+offset_bottom = 12.0
+
+[node name="InspectResident2Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry2/ButtonsRow2"]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 402.0
+offset_right = 616.0
+offset_bottom = 456.0
+theme_override_font_sizes/font_size = 25
+text = "INSPECT"
+
+[node name="KillResident2Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry2/ButtonsRow2"]
+layout_mode = 0
+offset_left = 630.0
+offset_top = 400.0
+offset_right = 732.0
+offset_bottom = 453.0
+theme_override_font_sizes/font_size = 25
+text = "KILL"
+
+[node name="ResidentEntry3" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList"]
+anchors_preset = 0
+offset_left = 439.0
+offset_top = 684.0
+offset_right = 560.0
+offset_bottom = 836.0
+
+[node name="Portrait3" type="TextureRect" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry3"]
+layout_mode = 0
+offset_left = 315.0
+offset_top = -561.0
+offset_right = 530.0
+offset_bottom = -257.0
+expand_mode = 1
+
+[node name="ButtonsRow3" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry3"]
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 121.0
+offset_bottom = 12.0
+
+[node name="InspectResident3Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry3/ButtonsRow3"]
+layout_mode = 0
+offset_left = 305.0
+offset_top = -257.0
+offset_right = 417.0
+offset_bottom = -198.0
+theme_override_font_sizes/font_size = 25
+text = "INSPECT"
+
+[node name="KillResident3Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry3/ButtonsRow3"]
+layout_mode = 0
+offset_left = 421.0
+offset_top = -250.0
+offset_right = 529.0
+offset_bottom = -205.0
+theme_override_font_sizes/font_size = 25
+text = "KILL"
+
+[node name="ResidentEntry4" type="Control" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList"]
+anchors_preset = 0
+offset_top = 64.0
+offset_right = 20.0
+offset_bottom = 76.0
+
+[node name="Portrait4" type="TextureRect" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry4"]
+layout_mode = 0
+offset_left = 1002.0
+offset_top = 65.0
+offset_right = 1213.0
+offset_bottom = 362.0
+expand_mode = 1
+
+[node name="ButtonsRow4" type="Panel" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry4"]
+layout_mode = 0
+offset_left = 324.0
+offset_top = -196.0
+offset_right = 456.0
+offset_bottom = -100.0
+
+[node name="InspectResident4Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry4/ButtonsRow4"]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 575.0
+offset_right = 776.0
+offset_bottom = 631.0
+theme_override_font_sizes/font_size = 25
+text = "INSPECT"
+
+[node name="KillResident4Button" type="Button" parent="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry4/ButtonsRow4"]
+layout_mode = 0
+offset_left = 788.0
+offset_top = 570.0
+offset_right = 893.0
+offset_bottom = 624.0
+theme_override_font_sizes/font_size = 25
+text = "KILL"
+
+[node name="DifficultyPanel" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EasyButton" type="Button" parent="UI/DifficultyPanel"]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 216.0
+offset_right = 393.0
+offset_bottom = 452.0
+theme_override_font_sizes/font_size = 100
+text = "EASY"
+
+[node name="MidButton" type="Button" parent="UI/DifficultyPanel"]
+layout_mode = 0
+offset_left = 458.0
+offset_top = 217.0
+offset_right = 812.0
+offset_bottom = 461.0
+theme_override_font_sizes/font_size = 100
+text = "MID"
+
+[node name="HardButton" type="Button" parent="UI/DifficultyPanel"]
+layout_mode = 0
+offset_left = 863.0
+offset_top = 221.0
+offset_right = 1197.0
+offset_bottom = 457.0
+theme_override_font_sizes/font_size = 100
+text = "HARD"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DifficultyPanel"]
+layout_mode = 0
+offset_left = 860.0
+offset_top = 449.0
+offset_right = 1088.0
+offset_bottom = 631.0
+
+[node name="DayLabel" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = -0.29900002
+anchor_top = -0.22800002
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 398.72003
+offset_top = 169.16
+offset_right = -1045.0
+offset_bottom = -626.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Day 1/7"
+label_settings = SubResource("LabelSettings_8ce7h")
+
+[node name="TokensLabel" type="Label" parent="UI"]
+offset_left = 1078.0
+offset_top = 3.0
+offset_right = 1282.0
+offset_bottom = 88.0
+size_flags_vertical = 0
+text = "Tokens: 5"
+label_settings = SubResource("LabelSettings_elgsa")
+
+[node name="StatusLabel" type="Label" parent="UI"]
+visible = false
+offset_left = 395.0
+offset_top = 652.0
+offset_right = 833.0
+offset_bottom = 721.0
+text = "Status: Startin Game..."
+label_settings = SubResource("LabelSettings_1mhn8")
+
+[node name="NextPhaseButton" type="Button" parent="UI"]
+offset_left = 469.0
+offset_top = 510.0
+offset_right = 755.0
+offset_bottom = 662.0
+theme_override_font_sizes/font_size = 50
+text = "Continue"
+
+[connection signal="pressed" from="UI/QuizPanel/AnswerAButton" to="UI" method="_on_answer_a_button_pressed"]
+[connection signal="pressed" from="UI/QuizPanel/AnswerBButton" to="UI" method="_on_answer_b_button_pressed"]
+[connection signal="pressed" from="UI/QuizPanel/AnswerCButton" to="UI" method="_on_answer_c_button_pressed"]
+[connection signal="pressed" from="UI/QuizPanel/AnswerDButton" to="UI" method="_on_answer_d_button_pressed"]
+[connection signal="pressed" from="UI/InspectPartsPanel/PartsButtonsContainer/InspectEyesButton" to="UI" method="_on_InspectEyesButton_pressed"]
+[connection signal="pressed" from="UI/InspectPartsPanel/PartsButtonsContainer/InspectTeethButton" to="UI" method="_on_InspectTeethButton_pressed"]
+[connection signal="pressed" from="UI/InspectPartsPanel/PartsButtonsContainer/InspectHandsButton" to="UI" method="_on_InspectHandsButton_pressed"]
+[connection signal="pressed" from="UI/InspectPartsPanel/PartsButtonsContainer/InspectFeetButton" to="UI" method="_on_InspectFeetButton_pressed"]
+[connection signal="pressed" from="UI/InspectPartsPanel/PartsButtonsContainer/InspectHairButton" to="UI" method="_on_InspectHairButton_pressed"]
+[connection signal="pressed" from="UI/InspectPartsPanel/BackButton" to="UI" method="_on_back_button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry0/ButtonsRow0/InspectResident0Button" to="UI" method="_on_InspectResident0Button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry0/ButtonsRow0/KillResident0Button" to="UI" method="_on_kill_resident_0_button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry1/ButtonsRow1/InspectResident1Button" to="UI" method="_on_InspectResident1Button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry1/ButtonsRow1/KillResident1Button" to="UI" method="_on_kill_resident_1_button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry2/ButtonsRow2/InspectResident2Button" to="UI" method="_on_InspectResident2Button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry2/ButtonsRow2/KillResident2Button" to="UI" method="_on_kill_resident_2_button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry3/ButtonsRow3/InspectResident3Button" to="UI" method="_on_InspectResident3Button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry3/ButtonsRow3/KillResident3Button" to="UI" method="_on_kill_resident_3_button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry4/ButtonsRow4/InspectResident4Button" to="UI" method="_on_InspectResident4Button_pressed"]
+[connection signal="pressed" from="UI/ResidentsPanel/ScrollContainer/ResidentsList/ResidentEntry4/ButtonsRow4/KillResident4Button" to="UI" method="_on_kill_resident_4_button_pressed"]
+[connection signal="pressed" from="UI/NextPhaseButton" to="GameManager" method="_on_next_phase_button_pressed"]
