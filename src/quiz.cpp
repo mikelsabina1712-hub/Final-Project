@@ -46,21 +46,21 @@ void QuizManager::fill_questions_easy(int day) {
         add_question("True or False: using namespace std; is safe to put in a .cpp file.",
                      PackedStringArray({"False", "True (but discouraged in headers)"}), 1);
         add_question("What is printed? cout << boolalpha << (5 == 5.0);",
-                     PackedStringArray({"1", "true", "True", "0"}), 1);
+                     PackedStringArray({"1", "True", "true", "0"}), 2);
         add_question("argc always has at least the value:",
                      PackedStringArray({"0", "1", "2", "-1"}), 1);
         add_question("The command to see hidden files in Unix is:",
-                     PackedStringArray({"ls", "ls -a", "ls -h", "ls --all"}), 1);
+                     PackedStringArray({"ls", "ls -h", "ls -a", "ls --all"}), 2);
     }
     else if (day == 2) {
         add_question("True or False: std::vector automatically shrinks capacity when you erase elements.",
                      PackedStringArray({"True", "False"}), 1);
         add_question("What does v.at(5) do that v[5] does not?",
-                     PackedStringArray({"Returns a pointer", "Bounds checking", "Moves the element", "Resizes"}), 1);
+                     PackedStringArray({"Returns a pointer", "Moves the element", "Resizes", "Bounds checking"}), 3);
         add_question("True or False: A reference must always be initialized when declared.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("What is wrong with int arr[10]; arr[10] = 42;?",
-                     PackedStringArray({"Syntax error", "Out-of-bounds", "Needs std::", "Nothing"}), 1);
+                     PackedStringArray({"Syntax error", "Needs std::", "Out-of-bounds", "Nothing"}), 2);
         add_question("In a Makefile, $@ refers to:",
                      PackedStringArray({"All prerequisites", "The target", "The compiler", "The first dependency"}), 1);
     }
@@ -70,7 +70,7 @@ void QuizManager::fill_questions_easy(int day) {
         add_question("True or False: std::cout << 10 << 5.5; prints 105.5 with no space.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("delete is used for:",
-                     PackedStringArray({"Arrays", "Single objects", "Stack variables", "References"}), 1);
+                     PackedStringArray({"Arrays", "Stack variables", "References", "Single objects"}), 2);
         add_question("The command to run Valgrind memory leak check is:",
                      PackedStringArray({"valgrind ./a.out", "valgrind --leak-check=full ./a.out", "gdb --leak ./a.out", "make leak"}), 1);
         add_question("True or False: int* p = new int[10]; delete p; is correct.",
@@ -82,7 +82,7 @@ void QuizManager::fill_questions_easy(int day) {
         add_question("True or False: #include \"header.h\" searches current directory first.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("The output of printf(\"%d\\n\", 42.0); is:",
-                     PackedStringArray({"42.0", "42", "Compilation error", "0"}), 1);
+                     PackedStringArray({"42.0", "Compilation error", "42", "0"}), 2);
         add_question("std::string s = \"hi\"; s += ' '; appends:",
                      PackedStringArray({"Nothing", "\"hi \"", "\"hi h\"", "Crash"}), 1);
         add_question("True or False: Loops can be nested infinitely without stack overflow.",
@@ -92,25 +92,25 @@ void QuizManager::fill_questions_easy(int day) {
         add_question("What is the ternary operator?",
                      PackedStringArray({"if-else", "condition ? true : false", "&&", "=="}), 1);
         add_question("int x = 5; ++x; cout << x; prints:",
-                     PackedStringArray({"5", "6", "4", "Undefined"}), 1);
+                     PackedStringArray({"5", "4", "6", "Undefined"}), 2);
         add_question("True or False: std::array size is fixed at compile time.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("The purpose of gdb is:",
                      PackedStringArray({"Compile", "Debug", "Build", "Version control"}), 1);
         add_question("break main in gdb sets a breakpoint at:",
-                     PackedStringArray({"Line 1", "Function main", "End of program", "Variable"}), 1);
+                     PackedStringArray({"Line 1", "End of program", "Variable", "Function main"}), 3);
     }
     else if (day == 6) {
         add_question("True or False: const int& can bind to temporaries.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("What does v.reserve(10) do?",
-                     PackedStringArray({"Adds 10 elements", "Allocates space for 10", "Shrinks", "Sorts"}), 1);
+                     PackedStringArray({"Adds 10 elements", "Shrinks", "Sorts", "Allocates space for 10"}), 3);
         add_question("chmod 755 file makes it:",
                      PackedStringArray({"Read-only", "Executable by owner", "Hidden", "Deleted"}), 1);
         add_question("True or False: main must return int.",
                     PackedStringArray({"True", "False"}), 0);
         add_question("What is UB?",
-                     PackedStringArray({"Defined behavior", "Undefined behavior", "User behavior", "Unix binary"}), 1);
+                     PackedStringArray({"Defined behavior", "User behavior", "Undefined behavior", "Unix binary"}), 2);
     }
     else { // day 7 and fallback
         add_question("True or False: new int(5) returns a pointer.",
@@ -133,9 +133,9 @@ void QuizManager::fill_questions_mid(int day) {
         add_question("True or False: The default copy constructor performs a deep copy of all members.",
                      PackedStringArray({"True", "False (shallow for pointers)"}), 1);
         add_question("What does std::move actually do?",
-                     PackedStringArray({"Immediately moves data", "Casts to rvalue reference", "Calls move constructor", "Deletes original"}), 1);
+                     PackedStringArray({"Immediately moves data", "Calls move constructor", "Deletes original", "Casts to rvalue reference"}), 3);
         add_question("The Rule of Zero is possible when your class:",
-                     PackedStringArray({"Has no pointers", "Only uses RAII types", "Has virtual functions", "Is final"}), 1);
+                     PackedStringArray({"Has no pointers", "Has virtual functions", "Only uses RAII types", "Is final"}), 2);
         add_question("Object slicing happens when:",
                      PackedStringArray({"You delete a derived object", "You assign derived to base by value", "You use references", "You use unique_ptr"}), 1);
     }
@@ -145,7 +145,7 @@ void QuizManager::fill_questions_mid(int day) {
         add_question("Which smart pointer allows shared ownership?",
                      PackedStringArray({"unique_ptr", "weak_ptr", "shared_ptr", "raw_ptr"}), 2);
         add_question("std::string usually uses SSO for strings shorter than about:",
-                     PackedStringArray({"8 chars", "15–23 chars", "64 chars", "256 chars"}), 1);
+                     PackedStringArray({"15–23 chars", "8 chars", "64 chars", "256 chars"}), 0);
         add_question("True or False: A lambda that captures by reference is safe to return from a function.",
                      PackedStringArray({"True", "False (usually dangling)"}), 1);
         add_question("The correct way to transfer ownership of a unique_ptr is:",
@@ -157,21 +157,21 @@ void QuizManager::fill_questions_mid(int day) {
         add_question("True or False: Move semantics require noexcept.",
                      PackedStringArray({"True", "False (but recommended for strong exception guarantee)"}), 1);
         add_question("std::map vs std::unordered_map:",
-                     PackedStringArray({"Unordered is slower", "Map is ordered", "Same speed", "No difference"}), 1);
+                     PackedStringArray({"Unordered is slower", "Same speed", "Map is ordered", "No difference"}), 2);
         add_question("Virtual destructor ensures:",
-                     PackedStringArray({"No polymorphism", "Derived dtor runs", "Copy safe", "Move only"}), 1);
+                     PackedStringArray({"No polymorphism", "Copy safe", "Move only", "Derived dtor runs"}), 3);
         add_question("True or False: final prevents overriding.",
                      PackedStringArray({"True", "False"}), 0);
     }
     else if (day == 4) {
         add_question("The Big Five includes:",
-                     PackedStringArray({"Only copy", "Dtor + copy/move ctor/assign", "Lambdas", "Templates"}), 1);
+                     PackedStringArray({"Only copy", "Lambdas", "Dtor + copy/move ctor/assign", "Templates"}), 2);
         add_question("What is RVO?",
                      PackedStringArray({"Return Value Optimization", "Rare Virtual Override", "Run-time Value Object", "None"}), 0);
         add_question("True or False: std::unique_ptr can be copied.",
                      PackedStringArray({"True", "False (moved only)"}), 1);
         add_question("Heap allocation uses:",
-                     PackedStringArray({"Stack", "new/delete", "Auto", "Static"}), 1);
+                     PackedStringArray({"Stack", "Auto", "Static", "new/delete"}), 3);
         add_question("In gdb, next vs step:",
                      PackedStringArray({"Same", "Next skips functions", "Step enters", "None"}), 2);
     }
@@ -179,9 +179,9 @@ void QuizManager::fill_questions_mid(int day) {
         add_question("True or False: File I/O uses RAII with ifstream.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("argc/argv for command args:",
-                     PackedStringArray({"Strings only", "Count + array of char*", "Ints", "Vectors"}), 1);
+                     PackedStringArray({"Strings only", "Ints", "Vectors", "Count + array of char*"}), 3);
         add_question("What is a macro danger?",
-                     PackedStringArray({"Type safe", "No checking", "Slow", "Fast"}), 1);
+                     PackedStringArray({"Type safe", "Slow", "No checking", "Fast"}), 2);
         add_question("True or False: std::vector::erase invalidates iterators after erased.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("Pointer vs reference:",
@@ -193,9 +193,9 @@ void QuizManager::fill_questions_mid(int day) {
         add_question("True or False: Default ctor is provided if none declared.",
                      PackedStringArray({"True (for POD)", "False"}), 0);
         add_question("protected inheritance makes base public become:",
-                     PackedStringArray({"Public", "Protected", "Private", "Virtual"}), 1);
+                     PackedStringArray({"Public", "Private", "Protected", "Virtual"}), 2);
         add_question("Polymorphism requires:",
-                     PackedStringArray({"No virtual", "Virtual functions", "Templates", "Macros"}), 1);
+                     PackedStringArray({"No virtual", "Templates", "Macros", "Virtual functions"}), 3);
         add_question("True or False: std::function uses type erasure.",
                      PackedStringArray({"True", "False"}), 0);
     }
@@ -222,9 +222,9 @@ void QuizManager::fill_questions_hard(int day) {
         add_question("True or False: std::shared_ptr is thread-safe for the control block.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("The most vexing parse interprets string s(); as:",
-                     PackedStringArray({"Default-constructed string", "Function declaration", "Compile error", "Empty string"}), 1);
+                     PackedStringArray({"Default-constructed string", "Compile error", "Empty string",  "Function declaration"}), 3);
         add_question("Which is guaranteed by C++17?",
-                     PackedStringArray({"Copy elision in all cases", "Guaranteed RVO for prvalues", "No move semantics", "No exceptions"}), 1);
+                     PackedStringArray({"Copy elision in all cases", "No move semantics", "Guaranteed RVO for prvalues", "No exceptions"}), 2);
     }
     else if (day == 2) {
         add_question("True or False: consteval functions can be called at runtime.",
@@ -232,7 +232,7 @@ void QuizManager::fill_questions_hard(int day) {
         add_question("In the game loop (Lecture 16), the correct order is:",
                      PackedStringArray({"Render → Update → Input", "Input → Update → Render", "Update → Input → Render", "Render → Input → Update"}), 1);
         add_question("Conway’s Game of Life: a live cell with exactly 3 neighbors:",
-                     PackedStringArray({"Dies", "Stays alive", "Becomes dead next gen", "Birth only"}), 1);
+                     PackedStringArray({"Dies", "Becomes dead next gen", "Birth only", "Stays alive"}), 3);
         add_question("True or False: On most embedded systems you can freely use new and delete.",
                      PackedStringArray({"True", "False"}), 1);
         add_question("The three boid steering behaviors are:",
@@ -240,7 +240,7 @@ void QuizManager::fill_questions_hard(int day) {
     }
     else if (day == 3) {
         add_question("In Qt, the signal/slot mechanism is processed by:",
-                     PackedStringArray({"Templates", "moc (Meta-Object Compiler)", "CMake", "qmake only"}), 1);
+                     PackedStringArray({"Templates", "CMake", "moc (Meta-Object Compiler)", "qmake only"}), 2);
         add_question("True or False: std::launder is needed after placement new.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("The diamond problem is solved using:",
@@ -260,7 +260,7 @@ void QuizManager::fill_questions_hard(int day) {
         add_question("True or False: Multiple inheritance always bad.",
                      PackedStringArray({"True", "False (useful but risky)"}), 1);
         add_question("std::forward for:",
-                     PackedStringArray({"Move only", "Perfect forwarding", "Copy", "None"}), 1);
+                     PackedStringArray({"Move only", "Copy", "None", "Perfect forwarding"}), 3);
     }
     else if (day == 5) {
         add_question("Universal reference is:",
@@ -288,7 +288,7 @@ void QuizManager::fill_questions_hard(int day) {
     }
     else { // day 7
         add_question("Boid cohesion:",
-                     PackedStringArray({"Avoid", "Steer toward average", "Match velocity", "Separate"}), 1);
+                     PackedStringArray({"Avoid", "Match velocity", "Steer toward average", "Separate"}), 2);
         add_question("What is \"as-if\" rule?",
                      PackedStringArray({"Optimization freedom", "Strict", "No UB", "None"}), 0);
         add_question("True or False: shared_ptr control block on heap.",
@@ -299,6 +299,7 @@ void QuizManager::fill_questions_hard(int day) {
                      PackedStringArray({"True", "False"}), 0);
     }
 }
+
 
 void QuizManager::load_questions_for_day(int difficulty, int day) {
     reset();
