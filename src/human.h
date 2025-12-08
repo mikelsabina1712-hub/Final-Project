@@ -5,6 +5,7 @@
 
 using namespace godot;
 
+// A regular human character - not a zombie
 class HumanCharacter : public Character {
     GDCLASS(HumanCharacter, Character);
 
@@ -14,7 +15,8 @@ protected:
 public:
     HumanCharacter();
     ~HumanCharacter();
-
+    
+    // Give this human a random appearance
     void assign_traits_randomly() override;
 };
 

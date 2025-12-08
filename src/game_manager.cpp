@@ -6,10 +6,9 @@
 #include <godot_cpp/variant/utility_functions.hpp>  
 #include <godot_cpp/classes/object.hpp>
 
-
-
 using namespace godot;
 
+// Bind all methods to Godot
 void GameManager::_bind_methods() {
     UtilityFunctions::print("GameManager::_bind_methods was called (FULL)");
 
@@ -33,11 +32,8 @@ void GameManager::_bind_methods() {
     ClassDB::bind_method(D_METHOD("clear_notifications"),
                      &GameManager::clear_notifications);
 
-
-
     ClassDB::bind_method(D_METHOD("has_player_won"),
                      &GameManager::has_player_won);
-
 
     ClassDB::bind_method(D_METHOD("start_new_game"),
                          &GameManager::start_new_game);
@@ -73,10 +69,9 @@ void GameManager::_bind_methods() {
     ClassDB::bind_method(D_METHOD("next_day"), &GameManager::next_day);
 
     ClassDB::bind_method(D_METHOD("get_resident_character", "idx"), &GameManager::get_resident_character);
-
-
 }
 
+// Constructor - initialize everything
 GameManager::GameManager() {
     day = 0;
     tokens = 0;
@@ -89,12 +84,12 @@ GameManager::GameManager() {
     notifications.clear();
 }
 
-
+// Called when the node is ready in the scene
 void GameManager::_ready() {
     UtilityFunctions::print("GameManager READY, listing children:");
     UtilityFunctions::print("GameManager::_ready: my path = ", get_path());
 
-
+    // Debug - list all children
     Array children = get_children();
     for (int i = 0; i < children.size(); i++) {
         Node *child = Object::cast_to<Node>(children[i]);
@@ -103,6 +98,7 @@ void GameManager::_ready() {
         }
     }
 
+    // Try to find DayManager
     Node *dm_raw = get_node_or_null("DayManager");
     if (dm_raw) {
         UtilityFunctions::print("Raw DayManager node found, class: ", dm_raw->get_class());
@@ -110,10 +106,12 @@ void GameManager::_ready() {
         UtilityFunctions::print("Raw DayManager node NOT found at path 'DayManager'.");
     }
 
+    // Get references to child nodes
     day_manager  = Object::cast_to<DayManager>(dm_raw);
     quiz_manager = get_node<QuizManager>("QuizManager");
     player       = get_node<Player>("Player");
 
+    // Error checking
     if (!day_manager) {
         UtilityFunctions::push_error("GameManager: DayManager node not found or wrong type.");
     }
@@ -127,7 +125,7 @@ void GameManager::_ready() {
     UtilityFunctions::print("GameManager READY");
 }
 
-// Difficulty
+// Difficulty management
 void GameManager::set_difficulty(int d) {
     if (d < 0) d = 0;
     if (d > 2) d = 2;
@@ -138,7 +136,7 @@ int GameManager::get_difficulty() const {
     return (int)difficulty;
 }
 
-// Tokens
+// Token system
 int GameManager::get_tokens() const {
     return tokens;
 }
@@ -147,7 +145,6 @@ void GameManager::earn_tokens(int amount) {
     if (amount < 0) return;
     tokens += amount;
     UtilityFunctions::print("You earned ", amount, " tokens. Total tokens: ", tokens);
-
 }
 
 bool GameManager::spend_tokens(int amount) {
@@ -161,7 +158,7 @@ bool GameManager::spend_tokens(int amount) {
     return true;
 }
 
-// Main flow
+// Start a new game - reset everything
 void GameManager::start_new_game() {
     day = 0;
     tokens = 0;
@@ -170,11 +167,9 @@ void GameManager::start_new_game() {
     residents.clear();
 
     UtilityFunctions::print("New game started. Day 0 begins.");
-    
-
-    //start_night();
 }
 
+// Night phase - spawn visitors
 void GameManager::start_night() {
     if (!player_alive) {
         return;
@@ -182,7 +177,7 @@ void GameManager::start_night() {
 
     UtilityFunctions::print("Night ", day, " begins.");
 
-    
+    // Lazy initialization of day_manager if needed
     if (!day_manager) {
         UtilityFunctions::print("GameManager::start_night: day_manager is null, trying to find it now…");
 
@@ -201,7 +196,7 @@ void GameManager::start_night() {
         UtilityFunctions::print("GameManager::start_night: successfully grabbed DayManager at runtime.");
     }
 
-    // Use GameManager's parent (your main Node2D scene) as spawn parent
+    // Use our parent node as the spawn location
     Node2D *world = Object::cast_to<Node2D>(get_parent());
     if (!world) {
         UtilityFunctions::push_error("GameManager: Parent is not a Node2D. Cannot spawn visitors.");
@@ -209,17 +204,16 @@ void GameManager::start_night() {
     }
 
     day_manager->start_new_day(world);
-
-
 }
 
+// End of night - check what happened based on who's in the house
 void GameManager::finish_night() {
     if (!player_alive) {
         return;
     }
 
-    // Safely get the House node
-    Node *house = get_node_or_null("House"); // adjust path if needed
+    // Find the House node where residents live
+    Node *house = get_node_or_null("House");
     if (!house) {
         UtilityFunctions::push_error("GameManager::finish_night: 'House' node not found.");
         return;
@@ -228,7 +222,7 @@ void GameManager::finish_night() {
     Array humans;
     Array zombies;
 
-    // Collect residents from the House node
+    // Count how many humans and zombies are in the house
     for (int i = 0; i < house->get_child_count(); i++) {
         Node *child = house->get_child(i);
         Character *c = Object::cast_to<Character>(child);
@@ -247,18 +241,17 @@ void GameManager::finish_night() {
     rng.instantiate();
     rng->randomize();
 
-    // 3) Nobody in the house → you always die
+    // Case 1: Nobody home - you die
     if (humans.size() == 0 && zombies.size() == 0) {
         player_alive = false;
         UtilityFunctions::print("No one was in the house to protect you. An intruder kills you in the night.");
         push_notification("No one was in the house to protect you. An intruder kills you in the night.");
-
         return;
     }
 
-    // 1) Both humans AND zombies in the house
+    // Case 2: Both humans and zombies - 50% chance zombies kill a human
     if (humans.size() > 0 && zombies.size() > 0) {
-        const double HUMAN_KILL_CHANCE = 0.5; // 50% chance
+        const double HUMAN_KILL_CHANCE = 0.5;
 
         if (rng->randf() < HUMAN_KILL_CHANCE) {
             int victim_index = rng->randi_range(0, humans.size() - 1);
@@ -266,9 +259,9 @@ void GameManager::finish_night() {
             if (victim) {
                 UtilityFunctions::print("Zombies killed one of your residents during the night.");
                 push_notification("Zombies killed one of your residents during the night.");
-                victim->queue_free(); // schedule removal from the scene tree
+                victim->queue_free();
 
-                //  Sync with residents so we don't keep a stale pointer
+                // Remove from our residents list too
                 for (int i = (int)residents.size() - 1; i >= 0; --i) {
                     Resident &r = residents[i];
                     if (r.character == victim) {
@@ -280,22 +273,21 @@ void GameManager::finish_night() {
         } else {
             UtilityFunctions::print("Zombies failed to kill anyone tonight.");
             push_notification("Zombies failed to kill anyone tonight.");
-
         }
 
-        // Player survives this night if we reach here
+        // You survive, move to next day
         next_day();
         if (day_manager) {
-            day_manager->end_day(); // clear nightly visitors
+            day_manager->end_day();
         } else {
             UtilityFunctions::push_error("GameManager::finish_night: day_manager is null when ending day.");
         }
         return;
     }
 
-    // 2) Only zombies, no humans
+    // Case 3: Only zombies - 50% chance they kill you
     if (zombies.size() > 0 && humans.size() == 0) {
-        const double PLAYER_KILL_CHANCE = 0.5; // tweak probability
+        const double PLAYER_KILL_CHANCE = 0.5;
 
         if (rng->randf() < PLAYER_KILL_CHANCE) {
             player_alive = false;
@@ -317,7 +309,7 @@ void GameManager::finish_night() {
         }
     }
 
-    // 0 zombies, at least 1 human → totally safe
+    // Case 4: Only humans - totally safe
     if (zombies.size() == 0 && humans.size() > 0) {
         UtilityFunctions::print("Your human residents kept you safe tonight.");
         push_notification("Your human residents kept you safe tonight.");
@@ -326,51 +318,53 @@ void GameManager::finish_night() {
             day_manager->end_day();
         } else {
             UtilityFunctions::push_error("GameManager::finish_night: day_manager is null when ending day.");
-
         }
         return;
     }
 
-    // Fallback, shouldn't really hit this
+    // Shouldn't reach here but just in case
     day++;
 }
 
+// Move to the next day
 void GameManager::next_day() {
     day++;         
     start_day();
 }
 
-
+// Day starts - do the morning routine
 void GameManager::start_day() {
     if (!player_alive) return;
 
+    // Check if we've won
     check_win_condition();
     if (!player_alive) {
         return;
     }
 
-
-
     UtilityFunctions::print("Morning of day ", day, ".");
 
+    // Handle residents who've been here too long
     increment_resident_days_and_handle_departures();
 
     UtilityFunctions::print("News: new zombie trait revealed for day ", day, ".");
 
+    // Start the daily quiz
     start_quiz();
 }
 
-// Visitors
+// Accept a visitor into the house
 void GameManager::let_visitor_in(Character *visitor) {
     if (!visitor) return;
 
-    // Use *alive* resident count instead of raw vector size
+    // Check if house is full
     int current_residents = get_resident_count();
     if (get_resident_count()  >= MAX_RESIDENTS) {
         UtilityFunctions::print("House is full. You cannot let more people in.");
         return;
     }
 
+    // Add to our residents list
     Resident r;
     r.character = visitor;
     r.days_in_house = 0;
@@ -378,11 +372,13 @@ void GameManager::let_visitor_in(Character *visitor) {
 
     residents.push_back(r);
 
+    // Move them into the House node
     Node *house_node = get_node<Node>("House");
     if (house_node) {
         visitor->reparent(house_node);
     }
 
+    // Remove from daily visitors list
     if (day_manager) {
         day_manager->remove_daily_character(visitor);
     }
@@ -390,28 +386,26 @@ void GameManager::let_visitor_in(Character *visitor) {
     UtilityFunctions::print("You let someone into the house. Total residents: ", (int)residents.size());
 }
 
-
+// Reject a visitor at the door
 void GameManager::reject_visitor(Character *visitor) {
     if (!visitor) return;
 
     UtilityFunctions::print("You rejected a visitor at the door.");
 
-    // Tell DayManager this visitor is gone, just like in let_visitor_in
+    // Remove from daily visitors list
     if (day_manager) {
         day_manager->remove_daily_character(visitor);
     }
 
+    // Delete the character
     visitor->queue_free();
 
-    // Just in case, show that residents list didn't change
     debug_print_residents();
 }
 
-
-
-// Quiz
+// Start the daily quiz
 void GameManager::start_quiz() {
-    // Try to resolve lazily if it's null
+    // Lazy initialization if needed
     if (!quiz_manager) {
         quiz_manager = get_node<QuizManager>("QuizManager");
         if (!quiz_manager) {
@@ -420,6 +414,7 @@ void GameManager::start_quiz() {
         }
     }
 
+    // Reset and load questions for today
     quiz_manager->reset();
     quiz_manager->load_questions_for_day((int)difficulty, day);
 
@@ -431,6 +426,7 @@ void GameManager::start_quiz() {
     UtilityFunctions::print("Quiz started for day ", day, ".");
 }
 
+// Answer a quiz question
 bool GameManager::answer_quiz_question(int choice_index) {
     if (!quiz_manager) return false;
 
@@ -449,12 +445,13 @@ bool GameManager::answer_quiz_question(int choice_index) {
     return correct;
 }
 
+// Check if there are more quiz questions
 bool GameManager::quiz_has_more_questions() const {
     if (!quiz_manager) return false;
     return quiz_manager->has_more_questions();
 }
 
-// Inspection
+// Inspect a resident - costs tokens
 bool GameManager::inspect_resident(int idx, int token_cost) {
     if (idx < 0 || idx >= (int)residents.size()) {
         UtilityFunctions::print("Invalid resident index for inspection.");
@@ -478,13 +475,14 @@ bool GameManager::inspect_resident(int idx, int token_cost) {
     return is_zombie;
 }
 
+// Decide what to do with a resident (kill or spare)
 void GameManager::decide_resident_fate(int idx, bool kill) {
     if (idx < 0) {
         UtilityFunctions::print("Invalid resident index for decision.");
         return;
     }
 
-    // Interpret idx as "alive index", same as get_resident_character
+    // Interpret idx as "alive index" - skip dead residents when counting
     int alive_index = 0;
     int real_index  = -1;
 
@@ -517,24 +515,20 @@ void GameManager::decide_resident_fate(int idx, bool kill) {
         UtilityFunctions::print("You killed resident alive-index ", idx,
                                 " (internal index ", real_index, ").");
 
-        // Free the node
+        // Delete the character node
         r.character->queue_free();
 
-        // Erase this resident *immediately* so UI indices stay in sync
+        // Remove from list immediately to keep UI in sync
         residents.erase(residents.begin() + real_index);
     } else {
         UtilityFunctions::print("You let resident alive-index ", idx,
                                 " (internal index ", real_index, ") live.");
     }
 
-    // Optional: debug after any decision
     debug_print_residents();
 }
 
-  
-   
-
-// Night danger
+// Night danger resolution (alternative system, not currently used)
 void GameManager::resolve_night_danger() {
     if (residents.empty()) {
         UtilityFunctions::print("Your house is empty. Someone breaks in and kills you while you sleep.");
@@ -546,6 +540,7 @@ void GameManager::resolve_night_danger() {
     std::vector<int> zombie_indices;
     std::vector<int> human_indices;
 
+    // Sort residents into zombies and humans
     for (int i = 0; i < (int)residents.size(); ++i) {
         Resident &r = residents[i];
         if (!r.alive || !r.character) continue;
@@ -563,6 +558,7 @@ void GameManager::resolve_night_danger() {
         return;
     }
 
+    // Danger increases each day
     float kill_prob = 0.2f + 0.1f * (day - 1); // day 1: 20%, day 7: 80%
     if (kill_prob > 0.95f) kill_prob = 0.95f;
 
@@ -574,6 +570,7 @@ void GameManager::resolve_night_danger() {
         return;
     }
 
+    // Attack happens
     if (!human_indices.empty()) {
         int victim_idx = human_indices[rng->randi_range(0, (int)human_indices.size() - 1)];
         Resident &victim = residents[victim_idx];
@@ -587,14 +584,15 @@ void GameManager::resolve_night_danger() {
         }
     } 
     else {
-    UtilityFunctions::print("No humans left… the zombies attack YOU in your sleep.");
-    player_alive = false;
+        // No humans left, zombies kill you
+        UtilityFunctions::print("No humans left… the zombies attack YOU in your sleep.");
+        player_alive = false;
     }
-
 }
 
+// Track how many days residents have been here, kick out humans after 2 days
 void GameManager::increment_resident_days_and_handle_departures() {
-    // 0) Remove residents that are already dead or have no character
+    // First pass - remove dead residents or ones with no character
     for (int i = (int)residents.size() - 1; i >= 0; --i) {
         Resident &r = residents[i];
         if (!r.alive || r.character == nullptr) {
@@ -602,14 +600,14 @@ void GameManager::increment_resident_days_and_handle_departures() {
         }
     }
 
-    // 1) Increment days for alive HUMAN residents
+    // Add a day to each living human
     for (Resident &r : residents) {
         if (!r.character->get_is_zombie()) {
             r.days_in_house += 1;
         }
     }
 
-    // 2) Remove humans who have stayed more than 2 days
+    // Kick out humans who've stayed more than 2 days
     for (int i = (int)residents.size() - 1; i >= 0; --i) {
         Resident &r = residents[i];
 
@@ -630,9 +628,7 @@ void GameManager::increment_resident_days_and_handle_departures() {
     debug_print_residents();
 }
 
-
-
-
+// Check if player has won or lost
 void GameManager::check_win_condition() {
     if (day > MAX_DAYS) {
         UtilityFunctions::print("You survived ", MAX_DAYS, " days. YOU WIN!");
@@ -640,13 +636,12 @@ void GameManager::check_win_condition() {
         player_alive = false;
         return;
     }
-
 }
 
+// Count how many residents are actually alive
 int GameManager::get_resident_count() const {
     int count = 0;
     for (const Resident &r : residents) {
-        // Count only residents that are marked alive and still have a character pointer
         if (r.alive && r.character != nullptr) {
             ++count;
         }
@@ -654,7 +649,7 @@ int GameManager::get_resident_count() const {
     return count;
 }
 
-
+// Get a resident character by alive index
 Character *GameManager::get_resident_character(int idx) {
     if (idx < 0) {
         return nullptr;
@@ -677,6 +672,7 @@ Character *GameManager::get_resident_character(int idx) {
     return nullptr;
 }
 
+// Debug - print out all residents
 void GameManager::debug_print_residents() const {
     UtilityFunctions::print("--- GameManager::debug_print_residents ---");
     UtilityFunctions::print("  total vector size = ", (int)residents.size(),
@@ -705,15 +701,17 @@ void GameManager::debug_print_residents() const {
     }
 }
 
+// Get notifications for the UI
 Array GameManager::get_notifications() const {
     return notifications;
 }
 
+// Clear notifications
 void GameManager::clear_notifications() {
     notifications.clear();
 }
 
+// Add a notification
 void GameManager::push_notification(const String &msg) {
     notifications.append(msg);
 }
-

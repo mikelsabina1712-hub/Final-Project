@@ -3,6 +3,7 @@
 
 using namespace godot;
 
+// Bind methods to Godot so GDScript can call them
 void QuizManager::_bind_methods() {
     UtilityFunctions::print("QUIZ::_bind_methods called");
 
@@ -18,15 +19,18 @@ void QuizManager::_bind_methods() {
                          &QuizManager::reset);
 }
 
+// Constructor - initialize and reset the quiz state
 QuizManager::QuizManager() {
     reset();
 }
 
+// Clear all questions and reset the current index
 void QuizManager::reset() {
     questions.clear();
     current_index = -1;
 }
 
+// Add a new question to the question list
 void QuizManager::add_question(const String &text,
     const PackedStringArray &choices,
     int correct_index) {
@@ -37,9 +41,9 @@ void QuizManager::add_question(const String &text,
     questions.push_back(q);
 }
 
+// Fill the question list with easy difficulty questions for a specific day
+// Easy questions cover basic C++ concepts like compilation, syntax, and simple commands
 void QuizManager::fill_questions_easy(int day) {
-    // Example: 2 easy questions per day
-
     if (day == 1) {
         add_question("The correct way to compile with all warnings turned on is:",
                      PackedStringArray({"g++ file.cpp", "g++ -Wall -Wextra -Werror -pedantic file.cpp", "clang file.cpp", "make file.cpp"}), 1);
@@ -112,7 +116,7 @@ void QuizManager::fill_questions_easy(int day) {
         add_question("What is UB?",
                      PackedStringArray({"Defined behavior", "User behavior", "Undefined behavior", "Unix binary"}), 2);
     }
-    else { // day 7 and fallback
+    else { // day 7 and beyond
         add_question("True or False: new int(5) returns a pointer.",
                      PackedStringArray({"True", "False"}), 0);
         add_question("ls -la shows:",
@@ -126,6 +130,8 @@ void QuizManager::fill_questions_easy(int day) {
     }
 }
 
+// Fill the question list with medium difficulty questions
+// Medium questions cover more advanced topics like smart pointers, move semantics, and memory management
 void QuizManager::fill_questions_mid(int day) {
     if (day == 1) {
         add_question("When deleting through a base pointer, the base destructor must be:",
@@ -213,6 +219,8 @@ void QuizManager::fill_questions_mid(int day) {
     }
 }
 
+// Fill the question list with hard difficulty questions
+// Hard questions cover advanced topics like undefined behavior, template metaprogramming, and low-level concepts
 void QuizManager::fill_questions_hard(int day) {
     if (day == 1) {
         add_question("This code has undefined behavior: int x = 5; int& r = x; int* p = &r; delete p;",
@@ -231,7 +239,7 @@ void QuizManager::fill_questions_hard(int day) {
                      PackedStringArray({"True", "False"}), 1);
         add_question("In the game loop (Lecture 16), the correct order is:",
                      PackedStringArray({"Render → Update → Input", "Input → Update → Render", "Update → Input → Render", "Render → Input → Update"}), 1);
-        add_question("Conway’s Game of Life: a live cell with exactly 3 neighbors:",
+        add_question("Conway's Game of Life: a live cell with exactly 3 neighbors:",
                      PackedStringArray({"Dies", "Becomes dead next gen", "Birth only", "Stays alive"}), 3);
         add_question("True or False: On most embedded systems you can freely use new and delete.",
                      PackedStringArray({"True", "False"}), 1);
@@ -300,10 +308,11 @@ void QuizManager::fill_questions_hard(int day) {
     }
 }
 
-
+// Load questions based on difficulty and day
 void QuizManager::load_questions_for_day(int difficulty, int day) {
     reset();
 
+    // Pick the right question set based on difficulty
     switch (difficulty) {
         case 0:
             fill_questions_easy(day);
@@ -317,6 +326,7 @@ void QuizManager::load_questions_for_day(int difficulty, int day) {
             break;
     }
 
+    // Set up index to start at first question
     if (questions.size() > 0) {
         current_index = 0;
     } else {
@@ -324,24 +334,25 @@ void QuizManager::load_questions_for_day(int difficulty, int day) {
     }
 }
 
+// Get the current question to display
 Dictionary QuizManager::get_next_question() {
     Dictionary result;
 
     if (current_index < 0 || current_index >= questions.size()) {
-        return result; // empty = no more questions
+        return result; // empty dict means no more questions
     }
 
     Dictionary q = questions[current_index];
 
-    // Match what UI.gd expects
+    // Format it for the UI to consume
     result["question"] = q["text"];          
     result["choices"]  = q["choices"];
-    // Optional: forward correct index if you ever want it on the GDScript side
     result["correct_index"] = q["correct_index"];
 
     return result;
 }
 
+// Check if the player's answer is correct, then move to next question
 bool QuizManager::answer_current_question(int choice_index) {
     if (current_index < 0 || current_index >= questions.size()) {
         return false;
@@ -355,12 +366,13 @@ bool QuizManager::answer_current_question(int choice_index) {
     // Move to next question
     current_index++;
     if (current_index >= questions.size()) {
-        current_index = questions.size(); // locked at end
+        current_index = questions.size(); // cap it at the end
     }
 
     return correct;
 }
 
+// Check if there are more questions left
 bool QuizManager::has_more_questions() const {
     return (current_index >= 0) && (current_index < questions.size());
 }

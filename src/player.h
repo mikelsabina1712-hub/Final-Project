@@ -6,6 +6,7 @@
 
 using namespace godot;
 
+// Represents the player - currently just a placeholder node
 class Player : public Node {
     GDCLASS(Player, Node);
 
