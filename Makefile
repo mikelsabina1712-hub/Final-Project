@@ -1,6 +1,3 @@
-# =========================================================
-# Minimal cross-platform Makefile for Godot 4.x GDExtension
-# =========================================================
 
 # Detect operating system
 UNAME_S := $(shell uname -s)
