@@ -1,52 +1,113 @@
-# godot-cpp template
-This repository serves as a quickstart template for GDExtension development with Godot 4.0+.
+# CS240 Zombie Survival Game  
+*A Godot + C++ Interactive Study Game*
 
-## Contents
-* Preconfigured source files for C++ development of the GDExtension ([src/](./src/))
-* An empty Godot project in [demo/](./demo), to test the GDExtension
-* godot-cpp as a submodule (`godot-cpp/`)
-* GitHub Issues template ([.github/ISSUE_TEMPLATE.yml](./.github/ISSUE_TEMPLATE.yml))
-* GitHub CI/CD workflows to publish your library packages when creating a release ([.github/workflows/builds.yml](./.github/workflows/builds.yml))
-* An SConstruct file with various functions, such as boilerplate for [Adding documentation](https://docs.godotengine.org/en/stable/tutorials/scripting/cpp/gdextension_docs_system.html)
+## 👥 Team Members
+- Alberto Alvarez Alcaraz  
+- Jose Sanchez Menchen  
+- Mikel Sabina Bazaco  
+- Adi Karamustafic  
 
-## Usage - Template
 
-To use this template, log in to GitHub and click the green "Use this template" button at the top of the repository page. This will let you create a copy of this repository with a clean git history.
+---
 
-To get started with your new GDExtension, do the following:
+## 🎯 Project Purpose and Description
+Many students struggle to find effective and engaging ways to prepare for computer science exams. This project addresses that problem by transforming CMSC240-style practice questions into a survival game.
 
-* clone your repository to your local computer
-* initialize the godot-cpp git submodule via `git submodule update --init`
-* change the name of the compiled library file inside the [SConstruct](./SConstruct) file by modifying the `libname` string.
-  * change the paths of the to be loaded library name inside the [demo/bin/example.gdextension](./demo/bin/example.gdextension) file, by replacing `godotcon2024` with the name you chose for `libname`.
-* change the `entry_symbol` string inside [demo/bin/example.gdextension](./demo/bin/example.gdextension) file.
-  * rename the `example_library_init` function in [src/register_types.cpp](./src/register_types.cpp) to the same name you chose for `entry_symbol`.
-* change the name of the `demo/bin/example.gdextension` file
+Players face a zombie apocalypse, and the only way to survive each day is by correctly answering C++ and computer science-related questions. Good answers grant tokens which come in handy in order to defeat the zombies, while mistakes put the player’s chances of survival at risk.
 
-Now, you can build the project with the following command:
+**Core features include:**
+- Three difficulty levels (easy, medium, hard)  
+- Reward mechanics for correct answers  
+- CMSC-themed trivia and problem-solving questions  
+- Day-counter survival system  
+- Personalized portraits for every character  
+- Godot engine environment with C++ integration  
 
-```shell
-scons
-```
+The concept is inspired by *No, I’m Not a Human* by Trioskaz, adapting its decision-and-survival structure into an educational setting.
 
-If the build command worked, you can test it with the [demo](./demo) project. Import it into Godot, open it, and launch the main scene. You should see it print the following line in the console:
+---
 
-```
-Type: 24
-```
+## 📦 External Libraries and Installation Instructions
 
-### Configuring an IDE
-You can develop your own extension with any text editor and by invoking scons on the command line, but if you want to work with an IDE (Integrated Development Environment), you can use a compilation database file called `compile_commands.json`. Most IDEs should automatically identify this file, and self-configure appropriately.
-To generate the database file, you can run one of the following commands in the project root directory:
-```shell
-# Generate compile_commands.json while compiling
-scons compiledb=yes
+This project uses **Godot with GDExtension C++ integration**. To build and run the C++ part of the project, you will need:
 
-# Generate compile_commands.json without compiling
-scons compiledb=yes compile_commands.json
-```
+### Required tools
+- **Godot Engine 4.x**  
+- **C++ compiler**  
+- **Godot-cpp bindings** (GDExtension)  
 
-## Usage - Actions
+### Setup steps
+1. Clone or download the project.  
+2. Install Godot 4.x (from the official website).  
+3. Navigate to the folder containing the C++ extension.   
+4. Build the bindings:  
+   ```bash
+   scons platform=windows or linux / macos
+   ```
+7. Build the extension library using CMake or SCons (depending on your project's build setup).  
 
-This repository comes with a GitHub action that builds the GDExtension for cross-platform use. It triggers automatically for each pushed change. You can find and edit it in [builds.yml](.github/workflows/builds.yml).
-After a workflow run is complete, you can find the file `godot-cpp-template.zip` on the `Actions` tab on GitHub.
+
+---
+
+## 🛠️ How to Compile and Run
+
+### Run inside Godot
+1. Open Godot.  
+2. Load the project folder.  
+3. Make sure the built native library is correctly referenced in the GDExtension config file.  
+4. Press **Play** in the Godot editor to launch the game.
+
+---
+
+## ▶️ Example Usage
+
+Once the game starts:
+
+1. You get some introductory instructions.
+2. Choose a difficulty level.
+3. Each day, a resident knocks on your door. Let them in or reject them.
+4. Go to sleep.
+5. Wake up and watch the news to get a clue about the zombies.
+6. Do the CMSC240 quiz. Answer questions correctly to earn tokens. Inspect character features to decide: human or zombie? Or just go to sleep, but remember, your choices determine who survives the night.
+7. Night outcomes resolved.
+
+
+---
+
+## 🖼️ Screenshots
+
+**Screenshot 1:**  
+![Screenshot1](ss1.png)
+
+**Screenshot 2:**  
+![Screenshot 2](ss2.png)  
+
+**Screenshot 3:**  
+![Screenshot 3](ss3.png)  
+
+**Screenshot 4:**  
+![Screenshot 4](ss4.png)  
+
+**Screenshot 5:**  
+![Screenshot 5](ss5.png)  
+
+**Screenshot 6:**  
+![Screenshot 6](ss6.png)  
+
+**Screenshot 7:**  
+![Screenshot 7](ss7.png)  
+
+**Screenshot 8:**  
+![Screenshot 8](ss8.png)  
+
+---
+
+## 🤖 AI Tools Used
+
+AI assistance was used during:
+- Godot procedures
+- Scene structures
+- Godot Commands
+- UI.gd process
+
+
