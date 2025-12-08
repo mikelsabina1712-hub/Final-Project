@@ -20,7 +20,7 @@ Players face a zombie apocalypse, and the only way to survive each day is by cor
 - Reward mechanics for correct answers  
 - CMSC-themed trivia and problem-solving questions  
 - Day-counter survival system  
-- Personalized portraits for every character  
+- Photos for every character feature  
 - Godot engine environment with C++ integration  
 
 The concept is inspired by *No, I’m Not a Human* by Trioskaz, adapting its decision-and-survival structure into an educational setting.
